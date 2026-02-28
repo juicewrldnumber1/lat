@@ -1,0 +1,550 @@
+<!DOCTYPE html><html lang="en"><head>
+    <title>Moo Moo 2</title>
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
+    <meta name="og:title" content="Play MooMoo2.io — Multiplayer Survival .io Game">
+    <meta name="og:description" content="Join the ultimate survival .io experience. Build, team up, and dominate the MooMoo2.io battlefield in your browser.">
+    <meta name="og:image" content="https://raw.githubusercontent.com/N0obGdPro/moomoo2.io/refs/heads/main/thumbnail_embed.png">
+    <meta name="og:image:alt" content="MooMoo2.io promotional artwork showing players defending a base">
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+	
+	<link rel="manifest" href="manifest.json">
+
+    <link rel="stylesheet" href="css/hammersmith-one.css">
+    <link rel="stylesheet" href="css/material-icons.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Play MooMoo2.io — Multiplayer Survival .io Game">
+    <meta name="twitter:description" content="Join the ultimate survival .io experience. Build, team up, and dominate the MooMoo2.io battlefield in your browser.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/N0obGdPro/moomoo2.io/refs/heads/main/thumbnail_embed.png">
+    <meta name="twitter:image:alt" content="MooMoo2.io promotional artwork showing players defending a base">
+
+    <!-- Structured Data: WebSite + Organization + VideoGame -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "MooMoo2.io",
+            "url": "https://moomoo2-io.onrender.com/",
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://moomoo2-io.onrender.com/?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+            }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "NoobGdPro Entertainment",
+            "url": "https://moomoo2-io.onrender.com/",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://moomoo2-io.onrender.com/img/favicon.png",
+                "width": 180,
+                "height": 180
+            }
+        }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": "MooMoo2.io",
+        "url": "https://moomoo2-io.onrender.com/",
+        "image": "https://moomoo2-io.onrender.com/img/promotion/banner_4.png",
+        "description": "MooMoo2.io is a free-to-play multiplayer survival .io game where players gather resources, craft weapons, and build bases to outlast opponents.",
+        "applicationCategory": "Game",
+        "operatingSystem": "Web Browser",
+        "genre": ["Multiplayer", "Survival", "Strategy"],
+        "publisher": {
+            "@type": "Organization",
+            "name": "NoobGdPro Entertainment"
+        },
+        "potentialAction": {
+            "@type": "PlayAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://moomoo2-io.onrender.com/"
+            }
+        }
+    }
+    </script>
+
+    <!-- JS: type=module is deferred by default; also add nomodule fallback if you ship it. -->
+    <script type="module" crossorigin="" src="js/bundle.js"></script>
+
+	<!-- STYLES LOCAL -->
+	<style>
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+		.spinning {
+            animation: spin 5s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+		@keyframes spin {
+  		  0% {
+  		      transform: rotate(0deg);
+  		  }
+			
+  		  50% {
+       		  transform: rotate(180deg);
+  		  }
+			
+		  100% {
+       		  transform: rotate(360deg);
+  		  }
+		}
+    </style>
+
+	<!-- DETECT CHEATS -->
+</head>
+
+<body>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <div id="errorNotification" class="menuCard" style="display:none">
+        <div>It looks like MooMoo2.io ran in to a problem. Please try <a target="_blank" href="https://www.computerhope.com/issues/ch001411.htm">disabling all of your browser extensions</a> and
+            reloading the page.</div>
+        <div style="text-align:center"><a onclick="errorNotification.style.display = 'none' " style="cursor:url(images/pointer.png), auto;">Hide</a></div>
+    </div>
+    <div id="shutdownDisplay" hidden=""></div>
+    <div id="mainMenu">
+            <div id="menuContainer">
+                <div id="gameName" class="floating">
+					<!--<div class="spinning" style="margin-bottom: -350px;">
+						<img src="./img/logo/glow.png" style="width: 350px;">
+					</div>-->
+					<img src="images/logo_1.png" style="width: 450px;margin-bottom: -25px;" draggable="false">
+				</div>
+                <div id="loadingText">Loading...</div>
+                <div id="menuCardHolder" style="display:none">
+                    <div class="menuCard" id="adCard" style="display: none;">
+					 	<a href="https://havre.io" target="_blank"><img id="promoImg" src="images/card_1.png" style="width:300px;cursor:url(images/pointer.png), auto;"></a>
+                    </div>
+                    <div style="display:inline-block">
+                        <div class="menuCard" id="setupCard">
+                            <input id="nameInput" placeholder="Username" maxlength="15">
+                            <br>
+                            <!--<altcha-widget id="altcha" challengeurl="https://api.moomoo.io/verify" hidefooter auto="onfocus"></altcha-widget>
+                            <br/>-->
+                            <div id="enterAccount" class="menuButton">
+                                <span>Account</span>
+                            </div>
+                            <br>
+                            <div id="enterGame" class="menuButton">
+                                <span>Play</span>
+                            </div>
+                        </div>
+                        <div id="promoImgHolder" class="menuCard" style="display:none;margin-top:16px;padding-bottom:12px">
+                            <a href="https://moomoo2-io.onrender.com/" target="_blank"><img id="promoImg" src="images/banner_1.png" style="width:300px;cursor:url(images/pointer.png), auto;"></a>
+                        </div>
+                    </div>
+                    <div id="rightCardHolder">
+                        <div class="menuCard" id="guideCard">
+                            <div class="menuHeader">Servers</div>
+                            <select id="serverSelect">
+								<option value="Frankfurt">Frankfurt (EU Central)</option>
+							</select>
+                            <div id="serverBrowser"></div>
+                            <div id="altServer"></div>
+                            <div class="menuHeader">Select Color</div>
+							<div class="menuText" style="text-align: center;">Preview: </div>
+                            <div id="characterPreview" style="position: relative; z-index: 1; place-items: center;">
+                                  <canvas id="previewCanvas" style="border-radius: 10px; background: transparent; display: block;"></canvas>
+                            </div>
+                            <div id="skinColorHolder"></div>
+                            <div class="menuHeader">How To Play</div>
+                            <div class="menuText">Collect resources around the map to build a village. Your Windmills generate gold over time. But make sure to protect them from other players.</div>
+                            <div class="menuHeader">Controls</div>
+                            <div id="desktopInstructions" class="menuText">
+                                <div class="keybindRow"><span>Movement Up</span><span class="keybindKey" data-action="moveUp"></span></div>
+                                <div class="keybindRow"><span>Movement Down</span><span class="keybindKey" data-action="moveDown"></span></div>
+                                <div class="keybindRow"><span>Movement Left</span><span class="keybindKey" data-action="moveLeft"></span></div>
+                                <div class="keybindRow"><span>Movement Right</span><span class="keybindKey" data-action="moveRight"></span></div>
+                                <div class="keybindRow"><span>Auto Attack</span><span class="keybindKey" data-action="autoAttack"></span></div>
+                                <div class="keybindRow"><span>Quick Select Food</span><span class="keybindKey" data-action="quickFood"></span></div>
+                                <div class="keybindRow"><span>Quick Select Windmill</span><span class="keybindKey" data-action="quickWindmill"></span></div>
+                                <div class="keybindRow"><span>Quick Select Spike</span><span class="keybindKey" data-action="quickSpike"></span></div>
+                                <div class="keybindRow"><span>Quick Select Trap</span><span class="keybindKey" data-action="quickTrap"></span></div>
+                                <div class="keybindRow"><span>Quick Select Turret</span><span class="keybindKey" data-action="quickTurret"></span></div>
+                                <div class="keybindRow"><span>Lock Rotation</span><span class="keybindKey" data-action="lockRotation"></span></div>
+                                <div class="keybindRow"><span>Ping Minimap</span><span class="keybindKey" data-action="pingMinimap"></span></div>
+                                <div class="keybindRow"><span>Close Windows</span><span class="keybindKey" data-action="closeWindows"></span></div>
+                                <div class="keybindText" data-fixed-key="0">Look: Mouse</div>
+                                <div class="keybindText" data-fixed-key="32">Gather/Attack: Mouse or Space</div>
+                                <div class="keybindText" data-fixed-key="0">Select Item: 1-9 or Click</div>
+                                <div class="keybindText" data-fixed-key="13">Chat: Enter Key</div>
+                            </div>
+                            <div id="mobileInstructions" class="menuText">
+                                Movement: Drag on left side of screen<br>
+                                Gather/Attack: Drag on right side of screen<br>
+                                Select Item: Touch item at bottom<br>
+                                Ping Minimap: Touch map<br>
+                            </div>
+                            <div class="menuHeader">Tips</div>
+                                <div class="menuText">Hover on an item in your action bar for more information about the item.<br><br>
+                                    Collect as many resources as you can before building your village.<br><br>
+                                    Stay close to your village so you can protect it at all times.
+                                </div>
+
+							<div class="menuHeader">Settings</div>
+                            <div class="settingRadio">
+                                <input id="nativeResolution" type="checkbox">Use Native Resolution
+                            </div>
+                            <div class="settingRadio">
+                                <input id="showPing" type="checkbox">Show Performance
+                            </div>
+							<div class="settingRadio">
+                                <input id="belowhealthbar" type="checkbox">Below Health Bar
+                            </div>
+							<div class="settingRadio">
+                                <input id="reworkleaderboard" type="checkbox">(BETA) Rework Scoreboard
+                            </div>
+                                            
+                            <div class="menuHeader">Party</div>
+                                        <div class="partyButtonsGrid">
+                                            <!--<button id="settingsJoinPartyBtn" class="partyButton joinPartyBtn">
+                                                <i class="material-icons">login</i>
+                                                <span>Join Party</span>
+                                            </button>-->
+                                            <button id="settingsCreatePartyBtn" class="partyButton createPartyBtn">
+                                                <i class="material-icons">add_circle</i>
+                                                <span>Create Party</span>
+                                            </button>
+                                        </div>
+                                        <div id="partyCodeDisplay" style="display: none; margin-top: 10px; padding: 10px; background: #e8f5e9; border-radius: 8px; text-align: center;">
+                                            <div style="font-size: 12px; color: #666; margin-bottom: 4px;">Your Party Code:</div>
+                                            <div id="partyCodeValue" style="font-size: 18px; font-weight: bold; color: #4CAF50; font-family: monospace;"></div>
+                                        </div>
+                       	    </div>
+						<!-- <div id="downloadButtonContainer" class="menuCard">
+							<a class="downloadBadge" href="https://sites.google.com/view/noobgdpro/about" target="_blank"><img src="https://raw.githubusercontent.com/N0obGdPro/moostalgia.io/refs/heads/main/client/public/img/promotion/badge_1.png" style="width: 85px;"></a>
+							<a class="downloadBadge" href="https://greasyfork.org/en/scripts/549513-classic-mod-no-hacks" target="_blank"><img src="https://raw.githubusercontent.com/N0obGdPro/moostalgia.io/refs/heads/main/client/public/img/promotion/badge_2.png" style="width: 85px;"></a>
+							<a class="downloadBadge" href="https://www.youtube.com/watch?v=1FJCe1o8C58&list=PLyM9q4oiZdJlG40kMTgIHGhj0_Gt0_NqA" target="_blank"><img src="https://raw.githubusercontent.com/N0obGdPro/moostalgia.io/refs/heads/main/client/public/img/promotion/badge_3.png" style="width: 85px;"></a>
+						</div> -->
+                    </div>
+					
+				<!-- Right Column - Account -->
+                <div class="menuCard" id="accountSection" style="padding: 16px; display: none; align-items: center; height: 100%;">
+                        
+                        <!-- Login Buttons (shown when logged out) -->
+                        <div id="loginButtons">
+                            <div id="guestModeLabel" style="background: #f0f0f0; border: 1px solid #ddd; border-radius: 8px; padding: 8px 16px; margin-bottom: 12px; text-align: center;">
+                                <i class="material-icons" style="font-size: 20px; color: #888; vertical-align: middle;">person_outline</i>
+                                <span style="font-size: 16px; font-weight: 600; color: #666; vertical-align: middle;">Guest</span>
+                            </div>
+                            <div class="accountIcon" style="margin-bottom: 6px;">
+                                <i class="material-icons" style="font-size: 95px; color: #7ee559;">account_circle</i>
+                            </div>
+                            <div class="menuHeader" style="text-align:center; margin-bottom: 6px; font-size: 22px;">Welcome
+                                to MooMoo2.io</div>
+                            <div class="menuText" style="text-align:center; margin-bottom: 14px; font-size: 17px; line-height: 1.4;">Sign in
+                                to save your
+                                progress, track statistics, and unlock exclusive features.</div>
+                            <div class="buttonGroup" style="width: 100%; gap: 8px;">
+                                <div class="menuButton primaryButton" onclick="showAuthModal(true)" style="padding: 10px 16px; font-size: 16px;">
+                                    <span>Sign In</span>
+                                </div>
+								<br>
+                                <div class="menuButton secondaryButton" onclick="showAuthModal(false)" style="padding: 10px 16px; font-size: 16px;">
+                                    <span>Create Account</span>
+                                </div>
+                            </div>
+                            <div class="infoBox" style="margin-top: 10px; padding: 10px;">
+                                <i class="material-icons" style="font-size: 16px;">info</i>
+                                <span style="font-size: 12px;">Guest mode: Play without an account. <br>You cannot use username ingame.</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Account Info (shown when logged in) -->
+                        <div id="accountInfo" style="display: none; text-align: center; width: 100%;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <i class="material-icons" style="font-size: 50px; color: #7ee559;">verified_user</i>
+                                <div style="text-align: left; flex: 1;">
+                                    <div id="accountNameDisplay" style="font-size: 18px; font-weight: bold; color: #333;"></div>
+                                    <div id="accountUsernameDisplay" style="font-size: 12px; color: #888; font-family: monospace;"></div>
+                                    <div id="accountIdDisplay" style="font-size: 11px; color: #aaa; font-family: monospace;"></div>
+                                </div>
+                            </div>
+                            <div id="accountRankDisplay" class="accountRank" style="font-size: 13px; padding: 4px 14px; border-radius: 12px; display: inline-block; margin-bottom: 10px;"></div>
+                            
+                            <div id="accountStatsPanel" style="background: #f8f8f8; border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px; text-align: left; margin-bottom: 10px;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 12px;">
+                                    <div style="display: flex; align-items: center; gap: 4px;">
+                                        <span style="color: #666;">Kills:</span>
+                                        <span id="accountKills" style="font-weight: 600; color: #333;">0</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 4px;">
+                                        <span style="color: #666;">Deaths:</span>
+                                        <span id="accountDeaths" style="font-weight: 600; color: #333;">0</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 4px;">
+                                        <span style="color: #666;">Score:</span>
+                                        <span id="accountScore" style="font-weight: 600; color: #333;">0</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 4px;">
+                                        <span style="color: #666;">High:</span>
+                                        <span id="accountHighScore" style="font-weight: 600; color: #333;">0</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 4px;">
+                                        <i class="material-icons" style="font-size: 16px; color: #2196f3;">schedule</i>
+                                        <span style="color: #666;">Playtime:</span>
+                                        <span id="accountPlayTime" style="font-weight: 600; color: #333;">0s</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 4px;">
+                                        <i class="material-icons" style="font-size: 16px; color: #2196f3;">schedule</i>
+                                        <span style="color: #666;">Joined:</span>
+                                        <span id="accountCreatedAt" style="font-weight: 600; color: #333;">-</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="buttonGroup" style="width: 100%; gap: 8px;">
+                                <div id="logoutBtn" class="menuButton secondaryButton" style="padding: 8px 16px; font-size: 14px;">
+                                    <span>Logout</span>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+					
+                </div>
+                <!-- <div id="wideAdCard" class="menuCard adMenuCard" style="max-width:728px;max-height:90px;display:inline-block;margin-top:10px" hidden>
+                    <div id="moomoo-io_728x90" align="center" class="adsbygoogle" style="display:inline-block;width:728px;height:90px"></div>
+                </div> -->
+            </div>
+            <div id="settingsButton" class="ytLink">
+                <i class="material-icons" style="font-size:30px;vertical-align:middle">settings</i>
+                <span>Settings</span>
+            </div>
+            <div id="partyButton" class="inParty">
+                <span></span>
+                <i class="material-icons" style="font-size:30px;vertical-align:middle">group</i>
+            </div>
+            <div id="joinPartyButton" class="ytLink">
+                <span>Join Party</span>
+                <i class="material-icons" style="font-size:30px;vertical-align:middle">login</i>
+            </div>
+            <div id="linksContainer1" class="legacyHidden">
+               Created by Sidney de Vries & M2 Dev Team & al007ex
+            </div>
+    
+            <div id="linksContainer2" class="legacyHidden">
+                <a href="./docs/versions.txt" target="_blank" class="menuLink">v26.5</a>
+                | <a href="https://discord.gg/cyvRYAWeeS" target="_blank" class="menuLink">MooMoo2 Discord</a>
+                | <a href="https://www.youtube.com/@NoobGdPro" target="_blank" class="menuLink">Subscribe</a>
+                | <a href="https://sites.google.com/view/noobgdpro/games" target="_blank" class="menuLink">More Games</a>
+            </div>
+        <div id="youtuberOf" class="legacyHidden">
+            Featured Mootuber:
+            <div class="spanLink" id="featuredYoutube"><a target="_blank" class="ytLink" href="https://www.youtube.com/channel/UCj6C_tiDeATiKd3GX127XoQ">
+                    <i class="material-icons" style="vertical-align: top;">videocam</i> LightThief</a></div>
+        </div>
+        </div>
+    
+    <div id="pingDisplay" hidden="">Not connected</div>
+    <div id="diedText">Defeat...</div>
+    <div id="touch-controls-left"></div>
+    <div id="touch-controls-right"></div>
+    <div id="touch-controls-fullscreen"></div>
+    <div id="gameUI" style="display:none">
+        <div id="chatHolder" style="display:none"><input id="chatBox" placeholder="Enter Chat" maxlength="30"></div>
+        <div id="upgradeHolder"></div>
+        <div id="upgradeCounter"></div>
+        <div id="topInfoHolder">
+            <div id="leaderboard">
+				<svg viewBox="0 0 500 80">
+                    <text class="svgText" x="50%" y="65" style="text-anchor: middle;font-size: 70px;stroke: #494947;stroke-width: 20px;stroke-linejoin: round;paint-order: stroke;fill: white;">Scoreboard</text>
+                </svg>
+				<div id="leaderboardData"></div>
+				<div id="leaderPreview" style="display:none;">
+					<canvas id="leaderPreviewCanvas" width="200" height="200"></canvas>
+				</div>
+            </div>
+            <div></div>
+        </div>
+        <div id="itemInfoHolder" class="uiElement"></div>
+        <div id="resDisplay">
+            <div id="foodDisplay" class="resourceDisplay"></div>
+            <div id="woodDisplay" class="resourceDisplay"></div>
+            <div id="stoneDisplay" class="resourceDisplay"></div>
+            <div id="scoreDisplay" class="resourceDisplay"></div>
+            <div id="gemDisplay" class="resourceDisplay"></div>
+            <div id="killCounter" class="resourceDisplay"></div>
+        </div>
+        <div id="bottomContainer">
+            <div id="ageBarContainer">
+                <div id="usernameText"></div>
+                <div id="ageBar">
+                    <div id="ageBarBody"></div>
+            		<div id="ageText"></div>
+                </div>
+            </div>
+            <div id="actionBar"></div>
+        </div>
+        <div id="notificationDisplay" style="display:none"></div>
+        <div id="allianceButton" class="uiElement gameButton"><i class="material-icons" style="font-size:40px;vertical-align:middle">group_add</i></div>
+        <div id="leaderboardButton" class="uiElement gameButton"><i class="material-icons" style="font-size:40px;vertical-align:middle">leaderboard</i></div>
+        <div id="storeButton" class="uiElement gameButton"><i class="material-icons" style="font-size:40px;vertical-align:middle">shopping_cart</i></div>
+        <div id="chatButton" class="uiElement gameButton"><i class="material-icons" style="font-size:40px;vertical-align:middle">chat</i></div>
+        <canvas id="mapDisplay"></canvas>
+        <div id="performanceDisplay" hidden="">
+            <div class="performanceItem">
+                <span class="performanceLabel">Ping:</span>
+                <span id="pingValue" class="performanceValue">0ms</span>
+            </div>
+            <div class="performanceItem">
+                <span class="performanceLabel">CPS:</span>
+                <span id="cpsValue" class="performanceValue">0</span>
+            </div>
+            <div class="performanceItem">
+                <span class="performanceLabel">FPS:</span>
+                <span id="fpsValue" class="performanceValue">60</span>
+            </div>
+            <div class="performanceItem">
+                <span class="performanceLabel">Packet:</span>
+                <span id="packetValue" class="performanceValue">0</span>
+            </div>
+        </div>
+        <div id="storeMenu">
+            <div style="padding-bottom:15px">
+                <div class="storeTab" style="margin-right:10px" onclick="changeStoreIndex(2)">Avatars</div>
+                <div class="storeTab" style="margin-right:10px" onclick="changeStoreIndex(0)">Hats</div>
+                <div class="storeTab" style="margin-right:10px" onclick="changeStoreIndex(1)">Accessories</div>
+                <div class="storeTab" onclick="changeStoreIndex(3)">Gloves</div>
+            </div> 
+            <div id="storeHolder"></div>
+        </div>
+        <div id="allianceMenu">
+            <div id="allianceHolder"></div>
+            <div id="allianceManager"></div>
+        </div>
+    </div><canvas id="gameCanvas"></canvas>
+
+	 <!-- Auth Modal -->
+    <div id="authModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; align-items: center; justify-content: center;">
+        <div style="background: #fff; border-radius: 12px; padding: 24px; width: 320px; max-width: 90%; box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h2 id="authModalTitle" style="margin: 0; color: #333; font-size: 20px;">Sign In</h2>
+                <span onclick="hideAuthModal()" style="cursor: pointer; font-size: 24px; color: #999;">&times;</span>
+            </div>
+            
+            <div id="authError" style="display: none; background: #ffe0e0; color: #c00; padding: 10px; border-radius: 6px; margin-bottom: 12px; font-size: 14px;"></div>
+            
+            <div style="margin-bottom: 12px;">
+                <label style="display: block; margin-bottom: 4px; font-weight: 600; color: #555; font-size: 14px;">Username</label>
+                <input id="authUsername" type="text" placeholder="4-16 characters" maxlength="16" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+            </div>
+            
+            <div id="emailGroup" style="margin-bottom: 12px; display: none;">
+                <label style="display: block; margin-bottom: 4px; font-weight: 600; color: #555; font-size: 14px;">Email</label>
+                <input id="authEmail" type="email" placeholder="your@email.com" maxlength="255" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+            </div>
+            
+            <div style="margin-bottom: 12px;">
+                <label style="display: block; margin-bottom: 4px; font-weight: 600; color: #555; font-size: 14px;">Password</label>
+                <input id="authPassword" type="password" placeholder="8-30 characters" maxlength="30" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+            </div>
+            
+            <div id="displayNameGroup" style="margin-bottom: 16px; display: none;">
+                <label style="display: block; margin-bottom: 4px; font-weight: 600; color: #555; font-size: 14px;">Display Name (optional)</label>
+                <input id="authDisplayName" type="text" placeholder="How others see you" maxlength="30" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+            </div>
+            
+            <button id="authSubmitBtn" onclick="submitAuth()" style="width: 100%; padding: 12px; background: #7ee559; color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer;">Sign In</button>
+            
+            <div id="forgotPasswordLink" style="text-align: center; margin-top: 12px;">
+                <a href="#" onclick="showForgotPasswordModal(); return false;" style="color: #2196f3; font-size: 13px; text-decoration: none;">Forgot Password?</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; align-items: center; justify-content: center;">
+        <div style="background: #fff; border-radius: 12px; padding: 24px; width: 340px; max-width: 90%; box-shadow: 0 8px 32px rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h2 style="margin: 0; color: #333; font-size: 20px;">Reset Password</h2>
+                <span onclick="hideForgotPasswordModal()" style="cursor: pointer; font-size: 24px; color: #999;">&times;</span>
+            </div>
+            
+            <div id="forgotPasswordError" style="display: none; background: #ffe0e0; color: #c00; padding: 10px; border-radius: 6px; margin-bottom: 12px; font-size: 14px;"></div>
+            <div id="forgotPasswordSuccess" style="display: none; background: #e0ffe0; color: #080; padding: 10px; border-radius: 6px; margin-bottom: 12px; font-size: 14px;"></div>
+            
+            <!-- Step 1: Enter Email -->
+            <div id="forgotStep1">
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">Enter your email address and we'll send you a verification code.</p>
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; margin-bottom: 4px; font-weight: 600; color: #555; font-size: 14px;">Email Address</label>
+                    <input id="forgotEmail" type="email" placeholder="your@email.com" maxlength="255" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+                </div>
+                <button id="sendCodeBtn" onclick="sendResetCode()" style="width: 100%; padding: 12px; background: #2196f3; color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer;">Send Code</button>
+            </div>
+            
+            <!-- Step 2: Verify Code -->
+            <div id="forgotStep2" style="display: none;">
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">Enter the 8-character code sent to your email.</p>
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; margin-bottom: 4px; font-weight: 600; color: #555; font-size: 14px;">Verification Code</label>
+                    <input id="verifyCode" type="text" placeholder="ABCD1234" maxlength="8" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 18px; text-align: center; letter-spacing: 4px; box-sizing: border-box; text-transform: uppercase;">
+                </div>
+                <button id="verifyCodeBtn" onclick="verifyResetCode()" style="width: 100%; padding: 12px; background: #2196f3; color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer;">Verify Code</button>
+                <div style="text-align: center; margin-top: 10px;">
+                    <a href="#" onclick="resendCode(); return false;" style="color: #888; font-size: 12px;">Didn't receive code? Resend</a>
+                </div>
+            </div>
+            
+            <!-- Step 3: New Password -->
+            <div id="forgotStep3" style="display: none;">
+                <p style="font-size: 14px; color: #666; margin-bottom: 16px;">Create a new password for your account.</p>
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; margin-bottom: 4px; font-weight: 600; color: #555; font-size: 14px;">New Password</label>
+                    <input id="newPassword" type="password" placeholder="8-30 characters" maxlength="30" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; margin-bottom: 4px; font-weight: 600; color: #555; font-size: 14px;">Confirm Password</label>
+                    <input id="confirmPassword" type="password" placeholder="Repeat password" maxlength="30" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+                </div>
+                <button id="resetPasswordBtn" onclick="resetPassword()" style="width: 100%; padding: 12px; background: #7ee559; color: #fff; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer;">Reset Password</button>
+            </div>
+            
+            <div style="text-align: center; margin-top: 12px;">
+                <a href="#" onclick="hideForgotPasswordModal(); showAuthModal(true); return false;" style="color: #666; font-size: 13px; text-decoration: none;">Back to Sign In</a>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        .accountRank.rank-0 { background: #e0e0e0; color: #666; }
+        .accountRank.rank-1 { background: #e0e0e0; color: #666; }
+        .accountRank.rank-2 { background: #e0e0e0; color: #666; }
+        .accountRank.rank-3 { background: #e0e0e0; color: #666; }
+        .accountRank.rank-4 { background: #e0e0e0; color: #666; }
+        .accountRank.rank-5 { background: #e0e0e0; color: #666; }
+        .accountRank.rank-6 { background: #e0e0e0; color: #666; }
+    </style>
+
+
+
+</body></html>
